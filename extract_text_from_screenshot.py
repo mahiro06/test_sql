@@ -1,8 +1,8 @@
 import os
 import time
-from google.cloud import vision
-from google.cloud.vision_v1 import types
 from dotenv import load_dotenv
+import pytesseract
+from PIL import Image
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -10,17 +10,17 @@ from oauth2client.service_account import ServiceAccountCredentials
 load_dotenv('/Users/nakajimahirotaka/VScode/test_sql/.env')
 
 def extract_text_from_image(image_path):
-    client = vision.ImageAnnotatorClient()
-    with open(image_path, 'rb') as image_file:
-        content = image_file.read()
-    image = types.Image(content=content)
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    if texts:
-        return texts[0].description
-    return ""
+    image = Image.open(image_path)
+    text = pytesseract.image_to_string(image, lang='jpn')
+    return text
 
 def update_spreadsheet(sheet_id, sheet_name, text):
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    credentials_path = os.getenv('CREDENTIALS_JSON')
+    if not credentials_path or not os.path.exists(credentials_path):
+        raise FileNotFoundError("The credentials JSON file path is not set or the file does not exist.")
+    creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
+    client = gspread.authorize(creds)
     
     sheet = client.open_by_key(sheet_id).worksheet(sheet_name)
     lines = text.split('\n')
