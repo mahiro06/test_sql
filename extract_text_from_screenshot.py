@@ -6,7 +6,6 @@ from PIL import Image
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# Load environment variables from .env file
 load_dotenv('/Users/nakajimahirotaka/VScode/test_sql/.env')
 
 def extract_text_from_image(image_path):
