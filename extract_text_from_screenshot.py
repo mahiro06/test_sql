@@ -7,7 +7,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Load environment variables from .env file
-load_dotenv('/Users/nakajimahirotaka/VScode/test_sql/.env')
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 # Set the environment variable for Google Cloud Vision API credentials
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getenv('CREDENTIALS_JSON')
