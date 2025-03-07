@@ -1,0 +1,14 @@
+name: Environment の secrets と variables の違いを見るテスト
+on: push
+
+env:
+  THIS_IS_ENVIRONMENT_SECRETS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    environment: PROD
+
+    steps:
+      - name: THIS_IS_ENVIRONMENT_SECRETS の 値を表示
+        run: echo ${THIS_IS_ENVIRONMENT_SECRETS}
