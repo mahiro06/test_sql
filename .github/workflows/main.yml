@@ -7,7 +7,7 @@ env:
 jobs:
   echo:
     runs-on: ubuntu-latest
-    environment: PROD
+    environment: GOOGLE_CREDENTIALS
 
     steps:
       - name: THIS_IS_ENVIRONMENT_SECRETS の 値を表示
